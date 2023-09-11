@@ -99,3 +99,88 @@ margin-right: 20px;
 #wpcf7-f45-o1{
     margin-left: 150px;
 }
+
+.modal-content h1{
+    margin-left: 150px;
+}
+
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.bar1 {
+    width: 30px;
+    height: 3px;
+    background-color: #333;
+    margin: 3px 0;
+    transition: transform 300ms ease-in-out;
+}
+
+.bar2{
+    width: 30px;
+    height: 3px;
+    background-color: #333;
+    margin: 3px 0;
+}
+
+.bar3{
+    width: 30px;
+    height: 3px;
+    background-color: #333;
+    margin: 3px 0;
+    transition: transform 300ms ease-in-out;
+}
+
+.bar1.active{
+    transform:rotate(45deg);
+    position: absolute;
+    top: 55px;
+    transition: transform 300ms ease-in-out;
+
+}
+
+.bar2.active{
+    opacity: 0;
+}
+.bar3.active{
+    transform:rotate(-45deg);
+    transition: transform 300ms ease-in-out;
+
+}
+
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: flex;
+    }
+    #menu-pied-de-page.menu{
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        margin-left: 300px;
+        width: 375px;
+        }
+    #site-header{
+        display: none;
+    }
+    #nav-bar a, #nav-bar ul{
+        display: none;
+    }
+    .menu-toggle.active{
+    display: flex;
+  flex-direction: column;
+  position: fixed;
+  z-index: 10;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background-color: #E00000;
+    }
+    .active a, .active ul{
+        display: flex;
+        flex-direction: column;
+        
+    }
+}
