@@ -4,3 +4,12 @@ Author: Marina
 Description: Thème pour Nathalie Mota
 Text Domain: PhotographeEvent
 */
+@font-face {
+	font-family: 'SpaceMono';
+	src:
+		url(‘fonts/SpaceMono-Italic.ttf’) format(‘truetype’);
+}
+
+body{
+    font-family: "SpaceMono";
+}

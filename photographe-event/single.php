@@ -17,5 +17,4 @@ Posté le <?php the_date(); ?> dans <?php the_category(', '); ?> par <?php the_a
 <?php endwhile; ?>
 <?php endif; ?>
 </div>
-<?php get_sidebar(); ?>
 <?php get_footer(); ?>
