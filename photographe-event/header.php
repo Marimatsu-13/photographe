@@ -8,6 +8,7 @@
 <body>
 <nav id="navigation">
     <section id="nav-bar">
+        <div id="menu-items">
         <?php
         if ( function_exists( 'the_custom_logo' ) ) {
             the_custom_logo();
@@ -18,6 +19,7 @@
             'container' => false,
         ));
         ?>
+        </div>
         <div class="menu-toggle">
             <div class="bar1"></div>
             <div class="bar2"></div>
