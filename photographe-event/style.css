@@ -54,9 +54,6 @@ margin-left: 50px;
 margin-top: 10px;
 }
 
-.post h1{
-    opacity: 0;
-}
 
 #site-header{
 margin-left: 50px;
@@ -161,6 +158,36 @@ margin-right: 20px;
 
 }
 
+.hide-header #site-header{
+    display: none;
+}
+
+.post-photo{
+   position: absolute;
+   top:80px;
+   left: 700px;
+}
+
+.bloc-com{
+margin-top: 400px;
+margin-left: 100px;
+}
+
+
+.wp-block-button, .wp-block-button__link{
+    background-color: #D8D8D8;
+    padding: 8px, 15px, 8px, 15px;
+    width: 272px;
+    position: absolute;
+    border-radius: 0px;
+    top:385px;
+    left: 200px;
+}
+
+.wp-block-button__link{
+    color: #000000;
+}
+
 @media (max-width: 768px) {
     .menu-toggle {
         display: flex;
@@ -168,13 +195,11 @@ margin-right: 20px;
         left: 600px;
     }
     #menu-pied-de-page.menu{
-        position: absolute;
         display: flex;
         justify-content: center;
         flex-direction: column;
-        margin-left: 200px;
+        margin-left: 50px;
         width: 375px;
-        bottom: 0;
         }
     #site-header{
         display: none;
@@ -213,4 +238,27 @@ margin-right: 20px;
         transform: translateX(0px);
         transition-duration: 300ms;
     }
+    .post-photo{
+        position: absolute;
+        left: 100px;
+        top: 200px;
+     }
+
+     .post-photo img{
+        width: 70%;
+        height: 70%;
+     }
+
+     .bloc-com{
+        margin-top: 300px;
+        margin-left: 100px;
+        width: 150px;
+        }
+    .wp-block-button, .wp-block-button__link{
+            position: absolute;
+            border-radius: 0px;
+            top:385px;
+            left: 50px;
+        }
 }
+

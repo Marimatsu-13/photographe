@@ -1,4 +1,5 @@
 let openModal = document.querySelector('#menu-item-46');
+let openModal2 = document.querySelector('.wp-block-button__link');
 let modal = document.querySelector('.modal');
 let closeModal = document.querySelector('.close');
 let modalContent = document.querySelector('.modal-content');
@@ -10,6 +11,17 @@ openModal.addEventListener('click', () => {
 
 
 closeModal.addEventListener('click', () => {
+    modal.style.display = 'none';
+    modalContent.style.display = 'none';
+});
+
+openModal2.addEventListener('click', () => {
+    modal.style.display = 'block';
+    modalContent.style.display = 'block';
+});
+
+
+closeModal2.addEventListener('click', () => {
     modal.style.display = 'none';
     modalContent.style.display = 'none';
 });
