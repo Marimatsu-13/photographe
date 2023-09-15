@@ -53,7 +53,6 @@ the_date(' Y', '<p>Année : ', '</p>');?>
 <?php 
 $taxonomy = 'categorie';
 $term = get_the_terms(get_the_ID(), $taxonomy);
-
 if ($term && !is_wp_error($term)) {
     $term_slug = $term[0]->slug;
 
@@ -66,7 +65,7 @@ if ($term && !is_wp_error($term)) {
                 'field' => 'slug',
                 'terms' => $term_slug
             )
-        )
+            )
     );
 
     $my_query = new WP_Query($args);
@@ -77,15 +76,13 @@ if ($term && !is_wp_error($term)) {
                 the_post_thumbnail('miniature-personnalisee');
             }
         endwhile;
-    else:
-        echo "Aucun article trouvé.";
+    
     endif;
     wp_reset_postdata();
-} else {
-    echo "Aucune taxonomie trouvée.";
 }
 ?>
 </div>
+<a href="http://localhost:10022/" class='btn-plus'>Toutes les photos</a>
 </div>
 <?php endwhile; ?>
 <?php endif; ?>

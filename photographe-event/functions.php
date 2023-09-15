@@ -50,6 +50,10 @@ function register_my_menu(){
   function custom_image_sizes() {
     
     add_image_size('miniature-personnalisee', 844, 563);
+	add_image_size('miniature-personnalisee2', 594, 495, true);
+
 }
 
 add_action('after_setup_theme', 'custom_image_sizes');
+
+
