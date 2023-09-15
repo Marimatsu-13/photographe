@@ -47,21 +47,9 @@ function register_my_menu(){
   }
   add_action( 'after_setup_theme', 'register_my_menu' );
 
-
-function request_photograpphe(){
-	$query= new WP_Query(
-		[
-			'post_type' => 'photo',
-			'post_per_page' => 1
-		]
-		);
-	if($query->have_post()){
-		wp_send_json($query);
-	}else {
-		wp_send_json(false);
-	}
-	wp_die();
+  function custom_image_sizes() {
+    
+    add_image_size('miniature-personnalisee', 844, 563);
 }
 
-add_action('wp_ajax_request_photograpphe', 'request_photograpphe');
-add_action('wp_ajax_nopriv_request_photograpphe', 'request_photograpphe');
+add_action('after_setup_theme', 'custom_image_sizes');

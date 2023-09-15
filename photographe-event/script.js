@@ -1,3 +1,21 @@
+let burger = document.querySelector(".menu-toggle");
+let NavMenu = document.querySelector("#menu-items");
+let bar1 = document.querySelector(".bar1");
+let bar2 = document.querySelector(".bar2");
+let bar3 = document.querySelector(".bar3");
+
+burger.addEventListener("click", ()=>{
+burger.classList.toggle("active");
+bar1.classList.toggle("active");
+bar2.classList.toggle("active");
+bar3.classList.toggle("active");
+NavMenu.classList.toggle("active");
+});
+
+
+
+
+
 let openModal = document.querySelector('#menu-item-46');
 let openModal2 = document.querySelector('.wp-block-button__link');
 let modal = document.querySelector('.modal');
@@ -20,23 +38,3 @@ openModal2.addEventListener('click', () => {
     modalContent.style.display = 'block';
 });
 
-
-closeModal2.addEventListener('click', () => {
-    modal.style.display = 'none';
-    modalContent.style.display = 'none';
-});
-
-
-let burger = document.querySelector(".menu-toggle");
-let NavMenu = document.querySelector("#menu-items");
-let bar1 = document.querySelector(".bar1");
-let bar2 = document.querySelector(".bar2");
-let bar3 = document.querySelector(".bar3");
-
-burger.addEventListener("click", ()=>{
-burger.classList.toggle("active");
-bar1.classList.toggle("active");
-bar2.classList.toggle("active");
-bar3.classList.toggle("active");
-NavMenu.classList.toggle("active");
-});
