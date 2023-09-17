@@ -10,10 +10,12 @@
 
 <?php
 $reference = get_post_meta(get_the_ID(), 'reference', true);
-
 if (($reference)) {
  echo "<p>Référence : <span class='ref'>$reference</span></p>";}
     ?>
+    <script>
+    let variableref = "<?php echo $reference; ?>";
+    </script>
 <?php
 $categorie = get_the_term_list(get_the_ID(), 'categorie', 'Catégorie : ');
 
@@ -47,8 +49,10 @@ the_date(' Y', '<p>Année : ', '</p>');?>
 </div>
 <div class="post-photo">
 <?php if (has_post_thumbnail()) {
-    the_post_thumbnail('miniature-personnalisee');} ?>
+    the_post_thumbnail('miniature-personnalisee');}
+?>
 </div>
+
 <div class= "same-cat">
 <?php 
 $taxonomy = 'categorie';

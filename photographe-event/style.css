@@ -239,8 +239,22 @@ margin-left: 100px;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+    margin: 20px 0px;
 }
 
+#category-select, #format-select, #date-select {
+    border-radius:0px, 0px, 8px, 8px ;
+    border: 1px solid;
+    padding: 5px;
+    width: 150px;
+    overflow:hidden;
+  }
+  #category-select option, #format-select option, #date-select option{
+  padding:5px;
+  }
+  #category-select option:hover,#format-select option:hover, #date-select option:hover{
+    background-color: red !important;
+  }
 
 @media (max-width: 768px) {
     .menu-toggle {
@@ -313,6 +327,11 @@ margin-left: 100px;
             border-radius: 0px;
             top:385px;
             left: 50px;
+        }
+    .row img {
+            width: 200px;
+            height: 278px;
+        
         }
 }
 

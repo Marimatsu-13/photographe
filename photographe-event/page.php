@@ -9,18 +9,18 @@
 <?php the_content(); ?>
 <div class='filtre'>
 <div class="filter-section">
-    <select id="category-select">
+    <select id="category-select" onfocus='this.size=5;' onblur='this.size=0;' onchange='this.size=1; this.blur();'>
         <option value="all">CATEGORIE</option>
     </select>
 </div>
 <div class="format-section">
-    <select id="format-select">
+    <select id="format-select" onfocus='this.size=3;' onblur='this.size=0;' onchange='this.size=1; this.blur();'>
         <option value="all">FORMAT</option>
     </select>
 </div>
 
 <div class="date-section">
-    <select id="date-select">
+    <select id="date-select" onfocus='this.size=5;' onblur='this.size=0;' onchange='this.size=1; this.blur();'>
         <option value="all">TRIER PAR</option>
     </select>
 </div>
@@ -30,6 +30,7 @@
 $args = array(
     'post_type' => 'photo',
     'posts_per_page' => 12,
+    'paged' => 1,
 );
 
 $my_query = new WP_Query($args);

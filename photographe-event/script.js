@@ -12,13 +12,13 @@ bar3.classList.toggle("active");
 NavMenu.classList.toggle("active");
 });
 
+
 document.addEventListener('DOMContentLoaded', function() {
     const categorySelect = document.getElementById('category-select');
     const formatSelect = document.getElementById('format-select');
     const dateSelect = document.getElementById('date-select');
-    const photoSection = document.querySelector('.row');
     const currentYear = new Date().getFullYear();
-    const yearsToShow = 10;
+    const yearsToShow = 5;
 
     for (let i = 0; i < yearsToShow; i++) {
         const yearOption = document.createElement('option');
@@ -40,7 +40,6 @@ document.addEventListener('DOMContentLoaded', function() {
         fetchFilteredPhotos(formatSelect.value, selectedSort);
     });
 
-    fetchDate();
     function fetchCategories() {
         fetch('http://localhost:10022/wp-json/wp/v2/categorie')
             .then(response => response.json())
@@ -52,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     categorySelect.appendChild(option);
                 });
             })
-            .catch(error => console.error('Erreur lors de la récupération des catégories :', error));
+            
     }
 
     function fetchFormat() {
@@ -66,33 +65,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     formatSelect.appendChild(option);  
                 });
             })
-            .catch(error => console.error('Erreur lors de la récupération des formats :', error));
+            
     }
     
-    function fetchFilteredPhotos(categorie, format, date) {
-        const apiUrl = `http://localhost:10022/wp-json/wp/v2/photos?categories=${categorie}&orderby=${format}`;
-        if (date && date !== 'all') {
-            const startDate = `${date}-01-01`;
-            const endDate = `${date}-12-31`;
-            apiUrl += `&after=${startDate}&before=${endDate}`;
-        }
-        fetch(apiUrl)
-            .then(response => response.json())
-            .then(photos => {
-                while (photoSection.firstChild) {
-                    photoSection.removeChild(photoSection.firstChild);
-                }
-
-                photos.forEach(photo => {
-                    const photoItem = document.createElement('div');
-                    photoItem.textContent = photo.title.rendered;
-                    photoSection.appendChild(photoItem);
-                });
-            })
-            .catch(error => console.error('Erreur lors de la récupération des photos :', error));
-    }
 });
-
 
 
 let openModal = document.querySelector('#menu-item-46');
@@ -100,6 +76,10 @@ let openModal2 = document.querySelector('.wp-block-button__link');
 let modal = document.querySelector('.modal');
 let closeModal = document.querySelector('.close');
 let modalContent = document.querySelector('.modal-content');
+let ref = document.querySelector('.ref');
+let refPhoto = document.querySelector('#refPhoto');
+
+refPhoto.value=variableref;
 
 openModal.addEventListener('click', () => {
     modal.style.display = 'block';

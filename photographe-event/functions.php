@@ -3,6 +3,7 @@
 function theme_scripts(){
     wp_enqueue_style('style', get_stylesheet_uri());
     wp_enqueue_script( 'script', get_template_directory_uri() . '/script.js', array(), '1.0.0', true );
+	
 }
 add_action('wp_enqueue_scripts', 'theme_scripts');
 
@@ -51,9 +52,11 @@ function register_my_menu(){
     
     add_image_size('miniature-personnalisee', 844, 563);
 	add_image_size('miniature-personnalisee2', 594, 495, true);
+	add_image_size('miniature-personnalisee3', 81, 71, true);
 
 }
 
 add_action('after_setup_theme', 'custom_image_sizes');
+
 
 
