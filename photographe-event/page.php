@@ -31,17 +31,21 @@ $args = array(
     'post_type' => 'photo',
     'posts_per_page' => 12,
     'paged' => 1,
-);
+);?>
 
-$my_query = new WP_Query($args);
+<?php 
+ $my_query = new WP_Query($args);
 
-if ($my_query->have_posts()) : 
+if ($my_query->have_posts()) : ?>
+<div class= "publication-list">
+<?php
     while ($my_query->have_posts()) : $my_query->the_post();
         if (has_post_thumbnail()) {
             the_post_thumbnail('miniature-personnalisee2');
         }
-    endwhile;
-endif;
+    endwhile;?>
+    </div>
+<?php endif;
 
 wp_reset_postdata();
 ?>

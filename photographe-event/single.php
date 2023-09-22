@@ -45,6 +45,21 @@ the_date(' Y', '<p>Année : ', '</p>');?>
 
 <div class="post-content">
 <?php the_content(); ?>
+<div class="thumbnailPreview">
+<?php
+$previous_post = get_adjacent_post(false, '', true);
+$next_post = get_adjacent_post(false, '', false);
+
+if ($previous_post) {
+    echo '<a href="' . get_permalink($previous_post->ID) . '"><img src="' . get_template_directory_uri() . '/images/Line6.png"></a>';
+    echo '<img src="' . get_the_post_thumbnail_url($previous_post->ID, 'thumbnail') . '" alt="Thumbnail précédent">';
+}
+
+if ($next_post) {
+    echo '<a href="' . get_permalink($next_post->ID) . '"><img src="' . get_template_directory_uri() . '/images/Line7.png"></a>';
+}
+?>
+</div>
 </div>
 </div>
 <div class="post-photo">
