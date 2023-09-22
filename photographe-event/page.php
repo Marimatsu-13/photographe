@@ -46,7 +46,6 @@ if ($my_query->have_posts()) : ?>
     endwhile;?>
     </div>
 <?php endif;
-
 wp_reset_postdata();
 ?>
 </div>

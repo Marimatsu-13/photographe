@@ -61,23 +61,29 @@ add_action('after_setup_theme', 'custom_image_sizes');
 
 
 function weichie_load_more() {
-	$ajaxposts = new WP_Query([
-	  'post_type' => 'publications',
-	  'posts_per_page' => 12,
-	  'paged' => $_POST['paged'],
-	]);
-  
-	if($ajaxposts->have_posts()) {
-	  while($ajaxposts->have_posts()) : $ajaxposts->the_post();
-	  if (has_post_thumbnail()) {
-		the_post_thumbnail('miniature-personnalisee2');
-	}
-	  endwhile;
-	} 
-	$thumbnail_url = get_the_post_thumbnail_url();
-	$thumbnail = array('html' => '<img src="' . esc_url($thumbnail_url) . '" alt="Thumbnail">');
-	echo json_encode($thumbnail);
-	wp_die();
-  }
+	$paged = $_POST['paged'];
+
+    $args = array(
+        'post_type' => 'photo',
+        'posts_per_page' => 12, 
+        'paged' => $paged,
+    );
+
+    $query = new WP_Query($args);
+
+    ob_start();
+
+    if ($query->have_posts()) {
+        while ($query->have_posts()) {
+            $query->the_post();
+             echo get_the_post_thumbnail();
+        }
+    }
+
+    $output = ob_get_clean();
+
+    echo json_encode(array('success' => true, 'html' => $output));
+    wp_die();
+}
   add_action('wp_ajax_weichie_load_more', 'weichie_load_more');
   add_action('wp_ajax_nopriv_weichie_load_more', 'weichie_load_more');

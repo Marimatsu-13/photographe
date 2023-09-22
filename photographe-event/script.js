@@ -12,28 +12,31 @@ bar3.classList.toggle("active");
 NavMenu.classList.toggle("active");
 });
 
-let currentPage= 1;
+let currentPage = 1;
 let loadMore = document.getElementById('load-more-button');
-let publication = document.querySelector('.publication-list')
+let publication = document.querySelector('.publication-list');
 
 loadMore.addEventListener('click', function() {
-    currentPage++; 
-  
-    let xhr = new XMLHttpRequest();
-    xhr.open('POST', '/wp-admin/admin-ajax.php', true);
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-  
-    
-    xhr.onload = function() {
-      if (xhr.status === 200) {
-        let response = JSON.parse(xhr.responseText);
-        publication.insertAdjacentHTML('beforeend', response.html);
-      }
-    };
-  
-    
-    xhr.send('action=weichie_load_more&paged=' + currentPage);
-  });
+    currentPage++;
+
+    const data = new URLSearchParams();
+    data.append('action', 'weichie_load_more');
+    data.append('paged', currentPage);
+
+    fetch('/wp-admin/admin-ajax.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: data
+    })
+    .then(response => response.json())
+    .then(response => {
+        if (response.html) {
+            publication.insertAdjacentHTML('beforeend', response.html);
+        }
+    })
+});
 
 
 document.addEventListener('DOMContentLoaded', function() {
