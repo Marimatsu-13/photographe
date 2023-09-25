@@ -48,6 +48,8 @@ if ($my_query->have_posts()) : ?>
 <?php endif;
 wp_reset_postdata();
 ?>
+
+</div>
 </div>
 <button id="load-more-button">Charger plus</button>
 </div>

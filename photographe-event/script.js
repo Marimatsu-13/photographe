@@ -20,7 +20,7 @@ loadMore.addEventListener('click', function() {
     currentPage++;
 
     const data = new URLSearchParams();
-    data.append('action', 'weichie_load_more');
+    data.append('action', 'load_more');
     data.append('paged', currentPage);
 
     fetch('/wp-admin/admin-ajax.php', {
@@ -54,17 +54,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     fetchCategories();
 
-    categorySelect.addEventListener('change', function() {
-        const selectedCategory = categorySelect.value;
-        fetchFilteredPhotos(selectedCategory, formatSelect.value);
-    });
-
     fetchFormat();
 
-    formatSelect.addEventListener('change', function() {
-        const selectedSort = formatSelect.value;
-        fetchFilteredPhotos(formatSelect.value, selectedSort);
-    });
 
     function fetchCategories() {
         fetch('http://localhost:10022/wp-json/wp/v2/categorie')
@@ -93,8 +84,39 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             
     }
-    
+
+    categorySelect.addEventListener('change', updateFilteredPosts);
+    formatSelect.addEventListener('change', updateFilteredPosts);
+    dateSelect.addEventListener('change', updateFilteredPosts);
+
+    function updateFilteredPosts() {
+        const selectedCategory = categorySelect.value;
+        const selectedFormat = formatSelect.value;
+        const selectedDate = dateSelect.value;
+      
+        fetchPosts(selectedCategory, selectedFormat, selectedDate);
+      }
+      
+      function fetchPosts(category, format, date) {
+        const data = new FormData();
+        data.append('action', 'filter_posts');
+        data.append('categorie', category);
+        data.append('format', format);
+        data.append('date', date);
+      
+        fetch('/wp-admin/admin-ajax.php', {
+          method: 'POST',
+          body: data,
+        })
+          .then(response => response.json())
+          .then(data => {
+            const postsContainer = document.getElementsByClassName('row');
+            postsContainer.innerHTML = data.html; 
+          })
+          .catch(error => console.error('Error fetching posts:', error));
+      }
 });
+
 
 
 let openModal = document.querySelector('#menu-item-46');
