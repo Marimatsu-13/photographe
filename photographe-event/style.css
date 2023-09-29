@@ -239,7 +239,7 @@ margin-left: 100px;
     margin-left: 800px;
     margin-top: 100px;
     width: 272px;
-
+    cursor: pointer;
 
 }
 
@@ -274,11 +274,21 @@ margin-left: 100px;
     z-index: 10;
     overflow: auto;
     animation: lightboxIn 500ms;
-    transition: opacity 300ms;
+    animation: fadeIn 0.5s;
 }
 
 .lightbox.fadeOut{
-    opacity: 0;
+    animation: fadeOut 0.5s;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
 }
 
 .lightbox_prev{
@@ -337,6 +347,10 @@ z-index: 12;
     align-items: center;
     justify-content: center;
     min-height: 100vh;
+}
+
+.lightbox_category{
+    color: white;
 }
 
 @keyframes lightboxIn{

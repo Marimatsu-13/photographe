@@ -40,23 +40,32 @@ loadMore.addEventListener('click', function() {
 
 
 document.addEventListener('DOMContentLoaded', function() {
-    const categorySelect = document.getElementById('category-select');
-    const formatSelect = document.getElementById('format-select');
-    const dateSelect = document.getElementById('date-select');
-    const currentYear = new Date().getFullYear();
-    const yearsToShow = 5;
+    let categorySelect = document.getElementById('category-select');
+    let formatSelect = document.getElementById('format-select');
+    let dateSelect = document.getElementById('date-select');
 
-    for (let i = 0; i < yearsToShow; i++) {
-        const yearOption = document.createElement('option');
-        yearOption.value = currentYear - i;
-        yearOption.textContent = currentYear - i;
-        dateSelect.appendChild(yearOption);
-    }
+   
+    
     fetchCategories();
 
     fetchFormat();
 
+    fetchDate();
 
+
+    function fetchDate() {
+        fetch('http://localhost:10022/wp-json/wp/v2/annee')
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(date => {
+                    const option = document.createElement('option');
+                    option.value = date.id;
+                    option.textContent = date.name;
+                    dateSelect.appendChild(option);
+                });
+            })
+            
+    }
     function fetchCategories() {
         fetch('http://localhost:10022/wp-json/wp/v2/categorie')
             .then(response => response.json())
@@ -75,10 +84,10 @@ document.addEventListener('DOMContentLoaded', function() {
         fetch('http://localhost:10022/wp-json/wp/v2/format')
             .then(response => response.json())
             .then(data => {
-                data.forEach(category => {
+                data.forEach(format => {
                     const option = document.createElement('option');
-                    option.value = category.id;
-                    option.textContent = category.name;
+                    option.value = format.id;
+                    option.textContent = format.name;
                     formatSelect.appendChild(option);  
                 });
             })
@@ -93,26 +102,45 @@ document.addEventListener('DOMContentLoaded', function() {
         const selectedCategory = categorySelect.value;
         const selectedFormat = formatSelect.value;
         const selectedDate = dateSelect.value;
-      
+        console.log(selectedCategory);
+        console.log(selectedFormat);
+        console.log(selectedDate);
         fetchPosts(selectedCategory, selectedFormat, selectedDate);
       }
       
       function fetchPosts(category, format, date) {
-        const data = new FormData();
+        let data = new FormData();
         data.append('action', 'filter_posts');
-        data.append('categorie', category);
+        data.append('category', category);
         data.append('format', format);
         data.append('date', date);
-      
-        fetch('/wp-admin/admin-ajax.php', {
+        console.log(fetchPosts);
+        
+        let requestData = {
+            action: "filter_posts",
+            category: category,
+            format: format,
+            date: date};
+         console.log(requestData);
+         let url = new URLSearchParams(requestData);
+         console.log(url);
+
+        fetch('wp-admin/admin-ajax.php', {
           method: 'POST',
-          body: data,
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+          body: url,
+          
         })
           .then(response => response.json())
           .then(data => {
-            const postsContainer = document.getElementsByClassName('row');
-            postsContainer.innerHTML = data.html; 
+            const postsContainer = document.querySelector('.publication-list');
+            postsContainer.textContent = ''; 
+            postsContainer.insertAdjacentHTML('beforeend', data.html);  
+
           })
+          
           .catch(error => console.error('Error fetching posts:', error));
       }
 });

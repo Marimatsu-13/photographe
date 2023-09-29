@@ -9,19 +9,19 @@
 <?php the_content(); ?>
 <div class='filtre'>
 <div class="filter-section">
-    <select id="category-select" onfocus='this.size=5;' onblur='this.size=0;' onchange='this.size=1; this.blur();'>
-        <option value="all">CATEGORIE</option>
+    <select  id="category-select" onfocus='this.size=5;' onblur='this.size=0;' onchange='this.size=1; this.blur();'>
+        <option value="">CATEGORIE</option>
     </select>
 </div>
 <div class="format-section">
     <select id="format-select" onfocus='this.size=3;' onblur='this.size=0;' onchange='this.size=1; this.blur();'>
-        <option value="all">FORMAT</option>
+        <option value="">FORMAT</option>
     </select>
 </div>
 
 <div class="date-section">
     <select id="date-select" onfocus='this.size=5;' onblur='this.size=0;' onchange='this.size=1; this.blur();'>
-        <option value="all">TRIER PAR</option>
+        <option value="">TRIER PAR</option>
     </select>
 </div>
 </div>
@@ -46,7 +46,6 @@ if ($my_query->have_posts()) : ?>
     endwhile;?>
     </div>
 <?php endif;
-wp_reset_postdata();
 ?>
 
 </div>

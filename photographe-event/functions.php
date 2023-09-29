@@ -4,7 +4,6 @@ function theme_scripts(){
     wp_enqueue_style('style', get_stylesheet_uri());
     wp_enqueue_script( 'script', get_template_directory_uri() . '/script.js', array(), '1.0.0', true );
 	wp_enqueue_script( 'lightbox-script', get_template_directory_uri() . '/lightbox.js', array(), '1.0.0', true );
-	
 }
 add_action('wp_enqueue_scripts', 'theme_scripts');
 
@@ -100,28 +99,31 @@ function load_more() {
 	  'post_type' => 'photo',
 	  'posts_per_page' => 12,
 	  'tax_query' => array(
-		'relation' => 'AND',
+		'relation' => 'OR',
 		array(
 		  'taxonomy' => 'categorie', 
-		  'field' => 'slug',
+		  'field' => 'term_id',
 		  'terms' => $category,
+		  'operator' => 'IN'
 		),
 		array(
 		  'taxonomy' => 'format', 
-		  'field' => 'slug',
+		  'field' => 'term_id',
 		  'terms' => $format,
+		  'operator' => 'IN'
 		),
-	),'date_query' => array(
 		array(
-		  'after' => $date,
-		  'inclusive' => true,
-		),
-	  ),
+			'taxonomy' => 'annee', 
+			'field' => 'term_id',
+			'terms' => $date,
+			'operator' => 'IN'
+		  ),
+	),
 	);
-  
+	
   
 	$posts = new WP_Query($args);
-  
+
 	ob_start();
   
 	if ($posts->have_posts()) {
