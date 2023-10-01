@@ -351,6 +351,11 @@ z-index: 12;
 
 .lightbox_category{
     color: white;
+    z-index: 20;
+}
+
+.lightbox_category.hidden{
+display: none;
 }
 
 @keyframes lightboxIn{

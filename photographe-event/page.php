@@ -43,11 +43,11 @@ if ($my_query->have_posts()) : ?>
         if (has_post_thumbnail()) {
             the_post_thumbnail('miniature-personnalisee2');
         }
+        
     endwhile;?>
     </div>
 <?php endif;
 ?>
-
 </div>
 </div>
 <button id="load-more-button">Charger plus</button>

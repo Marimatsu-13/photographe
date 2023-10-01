@@ -43,9 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let categorySelect = document.getElementById('category-select');
     let formatSelect = document.getElementById('format-select');
     let dateSelect = document.getElementById('date-select');
-
-   
-    
+     
     fetchCategories();
 
     fetchFormat();
@@ -144,6 +142,7 @@ document.addEventListener('DOMContentLoaded', function() {
           .catch(error => console.error('Error fetching posts:', error));
       }
 });
+
 
 
 

@@ -48,20 +48,29 @@ class Lightbox {
   
       dom.appendChild(container);
 
-      
-          
+    
+      let requestData = {
+        action: "get_cat",
+        url: url,};
+     let url2 = new URLSearchParams(requestData);
+     
+      fetch('wp-admin/admin-ajax.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+      },
+        body: url2
+      })
+      .then(response => response.json())
+      .then(data => {
       const taxonomyData = document.createElement('div');
       taxonomyData.classList.add('lightbox_category'); 
       dom.appendChild(taxonomyData);
-      
-      fetch('http://localhost:10022/wp-json/wp/v2/categorie')
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
-        taxonomyData.textContent = 'Categorie : ' + data.name;
+      console.log('Catégories :', data.html);
+        taxonomyData.textContent = 'Categorie : ' + data.html;
       })
-        
-        
+    
+     
       
       return dom;
     }
@@ -85,6 +94,7 @@ class Lightbox {
       const nextImageUrl = this.imageUrls[this.currentIndex];
       const lightboxContainer = document.querySelector('.lightbox_container img');
       lightboxContainer.src = nextImageUrl;
+      
     }
   
     prev() {
@@ -93,6 +103,7 @@ class Lightbox {
       const prevImageUrl = this.imageUrls[this.currentIndex];
       const lightboxContainer = document.querySelector('.lightbox_container img');
       lightboxContainer.src = prevImageUrl;
+      
     }
 
     
@@ -103,3 +114,39 @@ class Lightbox {
   });
   
   
+ /* function displayTaxonomyFromImage() {
+    const lightboxImage = document.querySelectorAll('.lightbox');
+    if (!lightboxImage) {
+        console.error('Aucune image trouvée dans la lightbox.');
+        return;
+    }
+
+    const imageUrl = lightboxImage;
+    console.log(imageUrl);
+    const imageId = getImageIdFromUrl(imageUrl);
+
+    if (!imageId) {
+        console.error('Impossible de récupérer l\'ID de l\'image.');
+        return;
+    }
+
+    // Envoyer une requête Ajax pour récupérer la taxonomie
+    const data = new FormData();
+    data.append('action', 'get_cat'); // Assurez-vous que 'get_taxonomy' est l'action enregistrée dans WordPress
+
+    fetch('/wp-admin/admin-ajax.php', {
+        method: 'POST',
+        body: data,
+    })
+    .then(response => response.json())
+    .then(data => {
+        const taxonomyData = document.createElement('div');
+        taxonomyData.classList.add('lightbox_category');
+        taxonomyData.textContent = 'Catégorie : ' + data.category;
+        document.body.appendChild(taxonomyData);
+    })
+    .catch(error => console.error('Erreur lors de la récupération de la taxonomie :', error));
+}
+
+// Appelez la fonction pour afficher la taxonomie
+displayTaxonomyFromImage();*/

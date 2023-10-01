@@ -14,8 +14,36 @@
         </div>
     </div>
     </footer>
-    
-    
+    <?php 
+    $args = array(
+        'post_type' => 'photo',
+        'posts_per_page' => 12,
+        'paged' => 1,);
+ $my_query = new WP_Query($args);
+
+if ($my_query->have_posts()) : ?>
+<div class= "publication-list">
+<?php
+    while ($my_query->have_posts()) : $my_query->the_post();
+    ?>
+    <div class= "lightbox_category hidden">
+    <?php
+    $categorie = get_the_term_list(get_the_ID(), 'categorie');
+    if ($categorie) {
+        echo '<p>' . $categorie . '</p>';
+    }
+    $reference = get_post_meta(get_the_ID(), 'reference', true);
+if (($reference)) {
+ echo "<p><span class='ref'>$reference</span></p>";}   
+    ?>
+    </div>
+    <?php endwhile;?>
+    </div>
+<?php endif;
+
+?>
+
+</div>
 <?php wp_footer() ?>
 </body>
 </html>

@@ -144,3 +144,37 @@ function load_more() {
 
 add_action('wp_ajax_filter_posts', 'filter_posts');
 add_action('wp_ajax_nopriv_filter_posts', 'filter_posts');
+
+
+function get_cat() {
+    ob_start();  // Commencer la mémoire tampon de sortie
+	$taxonomy = 'categorie'; 
+	$URL = $_POST['url'];
+	$id  = attachment_url_to_postid( $URL );
+	
+	$obj = get_post_meta(get_the_ID(),$taxonomy,true);
+	echo var_dump($obj);
+	
+// Récupérer la liste des termes pour la taxonomie spécifiée
+$term_list = get_the_term_list( get_the_ID(), $taxonomy);
+
+// Vérifie si des termes ont été récupérés
+if ( $term_list ) {
+    echo $term_list;  // Affiche la liste des termes
+} else {
+    echo 'Aucune catégorie ';  // Message si aucune catégorie n'est associée
+	echo $id;
+
+}
+
+    $response = array('html' => ob_get_clean());  // Récupérer le contenu de la mémoire tampon
+    wp_send_json($response);
+}
+
+// Hook pour les utilisateurs connectés
+add_action('wp_ajax_get_cat', 'get_cat');
+
+// Hook pour les utilisateurs non connectés
+add_action('wp_ajax_nopriv_get_cat', 'get_cat');
+
+
