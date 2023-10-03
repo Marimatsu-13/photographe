@@ -1,5 +1,7 @@
 <footer>
     <?php
+    global $nbrimgs;
+    echo $nbrimgs;
     wp_nav_menu([
         'theme_location' => 'footer',
         'container' => false,
@@ -24,26 +26,54 @@
 if ($my_query->have_posts()) : ?>
 <div class= "publication-list">
 <?php
+$i = 0;
+$urlarray = [];
     while ($my_query->have_posts()) : $my_query->the_post();
-    ?>
-    <div class= "lightbox_category hidden">
-    <?php
-    $categorie = get_the_term_list(get_the_ID(), 'categorie');
-    if ($categorie) {
-        echo '<p>' . $categorie . '</p>';
-    }
-    $reference = get_post_meta(get_the_ID(), 'reference', true);
-if (($reference)) {
- echo "<p><span class='ref'>$reference</span></p>";}   
-    ?>
-    </div>
-    <?php endwhile;?>
-    </div>
-<?php endif;
+    $urlarray = [];
+    $url= get_permalink(get_the_ID());
 
+    $urlarray[] = $url;
+    $urljson = json_encode($urlarray);
+
+    ?>
+   <div class= "lightbox_category_ref hidden">
+        <div class= "lightbox_category">
+           <?php
+            $categorie = get_the_terms(get_the_ID(), 'categorie');
+            $term = the_terms(get_the_ID(), 'categorie');
+            if ($categorie) {
+              echo '<p>' . $categorie . '</p>';
+             }
+            
+          ?>
+          
+        </div>
+        <div class= "lightbox_ref">
+            <?php
+             $reference = get_post_meta(get_the_ID(), 'reference', true);
+             
+            if (($reference)) {
+             echo "<p><span class='ref'>$reference</span></p>";}
+             ?>
+        <div class= "lightbox_eye">     
+             <?php
+             $page_url= get_permalink();
+              ?>
+            <script>
+                let urlpage = "<?php echo $page_url; ?>";
+            </script>
+        </div>   
+         </div>
+         
+    </div>
+    
+        <?php endwhile;?>
+      
+</div>
+<?php endif;
 ?>
 
-</div>
+
 <?php wp_footer() ?>
 </body>
 </html>

@@ -15,8 +15,8 @@ class Lightbox {
         document.querySelectorAll('img[src$=".jpeg"]')
       ).map((img) => img.getAttribute('src'));
   
-      const element = this.buildDom(url);
-      document.body.appendChild(element);
+     this.element = this.buildDom(url);
+      document.body.appendChild(this.element);
   
       this.addEventListeners();
     }
@@ -42,37 +42,53 @@ class Lightbox {
   
       const img = document.createElement('img');
       img.src = url;
-      
+      img.classList.add('lightbox_image');
+      dom.appendChild(img);
         
       container.appendChild(img);
   
       dom.appendChild(container);
-
-    
-      let requestData = {
-        action: "get_cat",
-        url: url,};
-     let url2 = new URLSearchParams(requestData);
-     
-      fetch('wp-admin/admin-ajax.php', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-      },
-        body: url2
-      })
-      .then(response => response.json())
-      .then(data => {
-      const taxonomyData = document.createElement('div');
-      taxonomyData.classList.add('lightbox_category'); 
-      dom.appendChild(taxonomyData);
-      console.log('Catégories :', data.html);
-        taxonomyData.textContent = 'Categorie : ' + data.html;
-      })
-    
-     
       
-      return dom;
+      const taxonomyData = document.createElement('div');
+      taxonomyData.classList.add('lightbox_category_ref');
+      const taxonomyCat = document.createElement('div');
+      taxonomyCat.classList.add('lightbox_category');
+      const taxonomyRef = document.createElement('div');
+      taxonomyRef.classList.add('lightbox_ref');
+
+      let taxcat= document.querySelectorAll('.lightbox_category');
+      let taxref = document.querySelectorAll('.lightbox_ref')
+      dom.appendChild(taxonomyData);
+      dom.appendChild(taxonomyCat);
+      dom.appendChild(taxonomyRef);
+   
+      const currentElementRef = taxref[this.currentIndex];
+      const innerdiv2text = currentElementRef.childNodes[1].innerText;
+      taxonomyRef.textContent =  innerdiv2text;
+      taxref.textContent = innerdiv2text;
+      taxonomyRef.innerText = innerdiv2text;
+      taxref.innerText = innerdiv2text;
+    
+      const currentElementCat = taxcat[this.currentIndex];
+      const innerdiv1text = currentElementCat.childNodes[1].innerText;
+      taxonomyCat.textContent =  innerdiv1text;
+      taxcat.textContent = innerdiv1text;
+      taxonomyCat.innerText =  innerdiv1text;
+      taxcat.innerText = innerdiv1text;
+    
+    const eye = document.createElement('a');
+    eye.classList.add('lightbox_eye');
+    dom.appendChild(eye);
+    const currentElementEye = document.querySelectorAll('.lightbox_eye')[this.currentIndex].innerHTML;
+    let stru1 = currentElementEye.indexOf('http');
+    let myurl1 = currentElementEye.substring(stru1);
+    let stru2 = myurl1.indexOf('"');
+    let myurl2 = myurl1.substring(0,stru2);
+    eye.href= myurl2;
+    
+
+
+    return dom;
     }
   
     addEventListeners() {
@@ -86,27 +102,145 @@ class Lightbox {
     }
   
     close() {
-      document.querySelector('.lightbox').remove();
+      location.reload(true);
     }
   
     next() {
+      
       this.currentIndex = (this.currentIndex + 1) % this.imageUrls.length;
       const nextImageUrl = this.imageUrls[this.currentIndex];
       const lightboxContainer = document.querySelector('.lightbox_container img');
+      const lightb = document.querySelector('.lightbox');
       lightboxContainer.src = nextImageUrl;
+      
+      console.log(this.element);
+
+      const totoref = this.element.querySelector('.lightbox_ref');
+      console.log(totoref);
+      const totocat = this.element.querySelector('.lightbox_category');
+      console.log(totocat);
+      const totocr = this.element.querySelector('.lightbox_category_ref');
+      console.log(totocr);
+
+      const catref = document.createElement('div');
+      catref.classList.add('lightbox_category_ref');
+      const Cat = document.createElement('div');
+      Cat.classList.add('lightbox_category');
+      
+      const Ref = document.createElement('div');
+      Ref.classList.add('lightbox_ref');
+      
+
+
+      let taxcat= document.querySelectorAll('.lightbox_category');
+      
+      let taxref = document.querySelectorAll('.lightbox_ref')
+      
+
+
+            
+      const currentElementRef = taxref[this.currentIndex];
+      const innerdiv2text = currentElementRef.childNodes[1].innerText;
+      console.log(innerdiv2text);
+
+      Ref.textContent = innerdiv2text;
+      console.log(Ref);
+      
+
+      const currentElementCat = taxcat[this.currentIndex];
+      const innerdiv1text = currentElementCat.childNodes[1].innerText;
+      console.log(innerdiv1text);
+           
+      Cat.textContent =  innerdiv1text;
+      console.log(Cat);
+      
+      this.element.removeChild(totocat);
+      this.element.appendChild(Cat);
+      this.element.removeChild(totoref);
+      this.element.appendChild(Ref);
+     
+      console.log(this.element);
       
     }
   
     prev() {
+      
       this.currentIndex =
         (this.currentIndex - 1 + this.imageUrls.length) % this.imageUrls.length;
       const prevImageUrl = this.imageUrls[this.currentIndex];
       const lightboxContainer = document.querySelector('.lightbox_container img');
       lightboxContainer.src = prevImageUrl;
       
-    }
+      /*const dom2 = this.buildDom(lightboxContainer.src);
+      console.log(dom2);
+      document.querySelector('.lightbox_ref').remove();
+     
+      const dom = document.createElement('div');
+      dom.classList.add('lightbox');*/
+      console.log(this.element);
+
+      const totoref = this.element.querySelector('.lightbox_ref');
+      console.log(totoref);
+      const totocat = this.element.querySelector('.lightbox_category');
+      console.log(totocat);
+      const totocr = this.element.querySelector('.lightbox_category_ref');
+      console.log(totocr);
+
+      const catref = document.createElement('div');
+      catref.classList.add('lightbox_category_ref');
+      const Cat = document.createElement('div');
+      Cat.classList.add('lightbox_category');
+      
+      const Ref = document.createElement('div');
+      Ref.classList.add('lightbox_ref');
+      
+
+
+      let taxcat= document.querySelectorAll('.lightbox_category');
+      
+      let taxref = document.querySelectorAll('.lightbox_ref')
+      
+
+
+            
+      const currentElementRef = taxref[this.currentIndex];
+      const innerdiv2text = currentElementRef.childNodes[1].innerText;
+      console.log(innerdiv2text);
+
+      Ref.textContent = innerdiv2text;
+      console.log(Ref);
+      
+
+      const currentElementCat = taxcat[this.currentIndex];
+      const innerdiv1text = currentElementCat.childNodes[1].innerText;
+      console.log(innerdiv1text);
+           
+      Cat.textContent =  innerdiv1text;
+      console.log(Cat);
+      
+      this.element.removeChild(totocat);
+      this.element.appendChild(Cat);
+      this.element.removeChild(totoref);
+      this.element.appendChild(Ref);
+     
+      console.log(this.element);
+       
 
     
+      /*this.updateCategoryAndReference();*/
+    }
+
+    updateCategoryAndReference() {
+    const taxonomyCat = document.querySelectorAll('.lightbox_category')[this.currentIndex];
+    const taxonomyRef = document.querySelectorAll('.lightbox_ref')[this.currentIndex];
+
+    // Update the displayed category and reference
+    const category = taxonomyCat.innerText;
+    const reference = taxonomyRef.innerText;
+    console.log('Category:', category);
+    console.log('Reference:', reference);
+   
+  }
   }
   
   document.addEventListener('DOMContentLoaded', function () {
@@ -114,39 +248,4 @@ class Lightbox {
   });
   
   
- /* function displayTaxonomyFromImage() {
-    const lightboxImage = document.querySelectorAll('.lightbox');
-    if (!lightboxImage) {
-        console.error('Aucune image trouvée dans la lightbox.');
-        return;
-    }
-
-    const imageUrl = lightboxImage;
-    console.log(imageUrl);
-    const imageId = getImageIdFromUrl(imageUrl);
-
-    if (!imageId) {
-        console.error('Impossible de récupérer l\'ID de l\'image.');
-        return;
-    }
-
-    // Envoyer une requête Ajax pour récupérer la taxonomie
-    const data = new FormData();
-    data.append('action', 'get_cat'); // Assurez-vous que 'get_taxonomy' est l'action enregistrée dans WordPress
-
-    fetch('/wp-admin/admin-ajax.php', {
-        method: 'POST',
-        body: data,
-    })
-    .then(response => response.json())
-    .then(data => {
-        const taxonomyData = document.createElement('div');
-        taxonomyData.classList.add('lightbox_category');
-        taxonomyData.textContent = 'Catégorie : ' + data.category;
-        document.body.appendChild(taxonomyData);
-    })
-    .catch(error => console.error('Erreur lors de la récupération de la taxonomie :', error));
-}
-
-// Appelez la fonction pour afficher la taxonomie
-displayTaxonomyFromImage();*/
+ 

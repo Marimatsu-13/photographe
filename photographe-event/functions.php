@@ -1,6 +1,8 @@
 <?php 
 
-function theme_scripts(){
+
+function theme_scripts()
+{
     wp_enqueue_style('style', get_stylesheet_uri());
     wp_enqueue_script( 'script', get_template_directory_uri() . '/script.js', array(), '1.0.0', true );
 	wp_enqueue_script( 'lightbox-script', get_template_directory_uri() . '/lightbox.js', array(), '1.0.0', true );
@@ -42,13 +44,15 @@ function montheme_supports()
 
 add_action('after_setup_theme','montheme_supports');
 
-function register_my_menu(){
+function register_my_menu()
+{
     register_nav_menu( 'header', 'En tête du menu' );
     register_nav_menu( 'footer', 'Pied de page' );
-  }
+}
   add_action( 'after_setup_theme', 'register_my_menu' );
 
-  function custom_image_sizes() {
+function custom_image_sizes() 
+{
     
     add_image_size('miniature-personnalisee', 844, 563);
 	add_image_size('miniature-personnalisee2', 594, 495, true);
@@ -60,8 +64,10 @@ add_action('after_setup_theme', 'custom_image_sizes');
 
 
 
-function load_more() {
+function load_more() 
+{
 	$paged = $_POST['paged'];
+	
 
     $args = array(
         'post_type' => 'photo',
@@ -79,10 +85,13 @@ function load_more() {
              echo get_the_post_thumbnail();
         }
     }
-
+	
+	
+	
     $output = ob_get_clean();
 
     echo json_encode(array('success' => true, 'html' => $output));
+    
     wp_die();
 }
   add_action('wp_ajax_load_more', 'load_more');
@@ -90,7 +99,8 @@ function load_more() {
 
   
 
-  function filter_posts() {
+function filter_posts() 
+{
 	$category = $_POST['category'];
 	$format = $_POST['format'];
 	$date = $_POST['date'];
@@ -140,41 +150,12 @@ function load_more() {
 	$response = array('html' => ob_get_clean());
 	wp_send_json($response);
 	wp_die();
-  }
+}
 
 add_action('wp_ajax_filter_posts', 'filter_posts');
 add_action('wp_ajax_nopriv_filter_posts', 'filter_posts');
 
 
-function get_cat() {
-    ob_start();  // Commencer la mémoire tampon de sortie
-	$taxonomy = 'categorie'; 
-	$URL = $_POST['url'];
-	$id  = attachment_url_to_postid( $URL );
-	
-	$obj = get_post_meta(get_the_ID(),$taxonomy,true);
-	echo var_dump($obj);
-	
-// Récupérer la liste des termes pour la taxonomie spécifiée
-$term_list = get_the_term_list( get_the_ID(), $taxonomy);
 
-// Vérifie si des termes ont été récupérés
-if ( $term_list ) {
-    echo $term_list;  // Affiche la liste des termes
-} else {
-    echo 'Aucune catégorie ';  // Message si aucune catégorie n'est associée
-	echo $id;
-
-}
-
-    $response = array('html' => ob_get_clean());  // Récupérer le contenu de la mémoire tampon
-    wp_send_json($response);
-}
-
-// Hook pour les utilisateurs connectés
-add_action('wp_ajax_get_cat', 'get_cat');
-
-// Hook pour les utilisateurs non connectés
-add_action('wp_ajax_nopriv_get_cat', 'get_cat');
 
 
