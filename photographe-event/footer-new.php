@@ -7,20 +7,16 @@
     ]);
     ?>
     
-    <div class="modal2">
-        <div class="modal-content2">
-            <span class="close2">&times;</span>
+    <div class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
             <img src="<?php echo get_template_directory_uri() . '/images/Contact-header.png'; ?> " alt="Contact" class="header-contact">
-        <?php echo do_shortcode('[contact-form-7 id="6b6aa5c" title="Contact form 1_copy"]'); ?>
+        <?php echo do_shortcode('[contact-form-7 id="dfd2a6f" title="Contact form 1"]'); ?>
         </div>
     </div>
     </footer>
     <?php 
- // Requête pour récupérer des publications de type 'photo'
-    $args = array(
-        'post_type' => 'photo',
-        'posts_per_page' => 12,
-        'paged' => 1,);
+    // Requête pour récupérer des publications de type 'photo'
  $my_query = new WP_Query($args);
 
 // Vérifie si la requête a des posts
@@ -31,6 +27,7 @@ if ($my_query->have_posts()) : ?>
     while ($my_query->have_posts()) : $my_query->the_post();
    // Récupère et affiche le lien de la publication
     $url= get_permalink(get_the_ID());
+    
     ?>
    <div class= "lightbox_category_ref hidden">
         <div class= "lightbox_category">
@@ -70,9 +67,10 @@ if ($my_query->have_posts()) : ?>
 </div>
 <?php endif;
 ?>
- 
+<script>
+       
+ </script>
 
 <?php wp_footer() ?>
-
 </body>
 </html>

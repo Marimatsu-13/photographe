@@ -72,8 +72,12 @@ if ($next_post) {
 <?php 
 $taxonomy = 'categorie';
 $term = get_the_terms(get_the_ID(), $taxonomy);
+/*echo (var_dump($term));*/
 if ($term && !is_wp_error($term)) {
     $term_slug = $term[0]->slug;
+    
+    $term_id = $term[0]->term_id;
+    
 
     $args = array(
         'post_type' => 'photo',
@@ -81,8 +85,8 @@ if ($term && !is_wp_error($term)) {
         'tax_query' => array(
             array(
                 'taxonomy' => $taxonomy,
-                'field' => 'slug',
-                'terms' => $term_slug
+                'field' => 'term_id',
+                'terms' => $term_id
             )
             )
     );
@@ -100,10 +104,14 @@ if ($term && !is_wp_error($term)) {
     wp_reset_postdata();
 }
 ?>
+
 </div>
 <a href="http://localhost:10022/" class='btn-plus'>Toutes les photos</a>
 </div>
 <?php endwhile; ?>
 <?php endif; ?>
 </div>
-<?php get_footer(); ?>
+<?php 
+
+
+get_footer('new',$args); ?>

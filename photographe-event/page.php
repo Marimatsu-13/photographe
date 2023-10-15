@@ -28,7 +28,7 @@
 </div>
 <div class="row">
 <?php
-echo $nbrimgs ;
+
 $args = array(
     'post_type' => 'photo',
     'posts_per_page' => 12,

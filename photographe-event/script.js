@@ -1,3 +1,4 @@
+// Gestion du burger menu et de la navigation mobile
 let burger = document.querySelector(".menu-toggle");
 let NavMenu = document.querySelector("#menu-items");
 let bar1 = document.querySelector(".bar1");
@@ -11,19 +12,20 @@ bar2.classList.toggle("active");
 bar3.classList.toggle("active");
 NavMenu.classList.toggle("active");
 });
-
+// Gestion du chargement supplémentaire de photos
 let currentPage = 1;
 let loadMore = document.getElementById('load-more-button');
 let publication = document.querySelector('.publication-list');
+let publication2 = document.querySelectorAll('.publication-list');
 
 loadMore.addEventListener('click', function() {
-    currentPage++;
-
+     currentPage++;
+  
     const data = new URLSearchParams();
     data.append('action', 'load_more');
     data.append('paged', currentPage);
 
-    fetch('/wp-admin/admin-ajax.php', {
+    fetch('http://localhost:10022///wp-admin/admin-ajax.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
@@ -32,13 +34,32 @@ loadMore.addEventListener('click', function() {
     })
     .then(response => response.json())
     .then(response => {
-        if (response.html) {
-            publication.insertAdjacentHTML('beforeend', response.html);
+        if (response.html) {     
+            /*console.log(response.html);*/
+            // Ajout du contenu récupéré au div concernée
+            
+            const tmpdiv = document.createElement('div');
+            tmpdiv.classList.add('publication_list');
+            tmpdiv.innerHTML = response.html;
+            const img_lnks = tmpdiv.querySelectorAll('img');
+             
+            catref_tmp = tmpdiv.querySelectorAll('.lightbox_category_ref')
+           
+            for (let i = 0, len = img_lnks.length | 0; i < len; i++) {
+                publication.insertAdjacentElement("beforeend",img_lnks[i]);                
+              }
+            for (let i = 0, len = catref_tmp.length | 0; i < len; i++) {
+                publication2[1].insertAdjacentElement("beforeend",catref_tmp[i]);                
+              }
+              Lightbox.init();
         }
+        
+        
     })
+    
 });
 
-
+// Fonction pour récupérer les catégories, les formats et les dates
 document.addEventListener('DOMContentLoaded', function() {
     let categorySelect = document.getElementById('category-select');
     let formatSelect = document.getElementById('format-select');
@@ -52,7 +73,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     function fetchDate() {
-        fetch('http://localhost:10022/wp-json/wp/v2/annee')
+        fetch('http://localhost:10022//wp-json/wp/v2/annee')
             .then(response => response.json())
             .then(data => {
                 data.forEach(date => {
@@ -65,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
     }
     function fetchCategories() {
-        fetch('http://localhost:10022/wp-json/wp/v2/categorie')
+        fetch('http://localhost:10022//wp-json/wp/v2/categorie')
             .then(response => response.json())
             .then(data => {
                 data.forEach(category => {
@@ -79,7 +100,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function fetchFormat() {
-        fetch('http://localhost:10022/wp-json/wp/v2/format')
+        fetch('http://localhost:10022//wp-json/wp/v2/format')
             .then(response => response.json())
             .then(data => {
                 data.forEach(format => {
@@ -100,28 +121,21 @@ document.addEventListener('DOMContentLoaded', function() {
         const selectedCategory = categorySelect.value;
         const selectedFormat = formatSelect.value;
         const selectedDate = dateSelect.value;
-        console.log(selectedCategory);
-        console.log(selectedFormat);
-        console.log(selectedDate);
+      
         fetchPosts(selectedCategory, selectedFormat, selectedDate);
       }
       
       function fetchPosts(category, format, date) {
-        let data = new FormData();
-        data.append('action', 'filter_posts');
-        data.append('category', category);
-        data.append('format', format);
-        data.append('date', date);
-        console.log(fetchPosts);
-        
+        let publication2 = document.querySelectorAll('.publication-list');
+             
         let requestData = {
             action: "filter_posts",
             category: category,
             format: format,
             date: date};
-         console.log(requestData);
+         
          let url = new URLSearchParams(requestData);
-         console.log(url);
+         
 
         fetch('wp-admin/admin-ajax.php', {
           method: 'POST',
@@ -133,42 +147,39 @@ document.addEventListener('DOMContentLoaded', function() {
         })
           .then(response => response.json())
           .then(data => {
+            
+            while (publication2[1].firstChild) {
+                publication2[1].removeChild(publication2[1].firstChild);
+            }
+           
+            
             const postsContainer = document.querySelector('.publication-list');
             postsContainer.textContent = ''; 
-            postsContainer.insertAdjacentHTML('beforeend', data.html);  
+
+            const tmpdiv = document.createElement('div');
+            tmpdiv.classList.add('publication_list');
+            tmpdiv.innerHTML = data.html;
+            const img_lnks = tmpdiv.querySelectorAll('img');
+            catref_tmp = tmpdiv.querySelectorAll('.lightbox_category_ref')
+            for (let i = 0, len = img_lnks.length | 0; i < len; i++) {
+                postsContainer.insertAdjacentElement("beforeend",img_lnks[i]);                
+              }
+            for (let i = 0, len = catref_tmp.length | 0; i < len; i++) {
+                
+                publication2[1].insertAdjacentElement("beforeend",catref_tmp[i]);                
+            }
+            Lightbox.init();
+            
+
+
 
           })
-          
           .catch(error => console.error('Error fetching posts:', error));
       }
-});
+
+
+    });
 
 
 
-
-let openModal = document.querySelector('#menu-item-46');
-let openModal2 = document.querySelector('.wp-block-button__link');
-let modal = document.querySelector('.modal');
-let closeModal = document.querySelector('.close');
-let modalContent = document.querySelector('.modal-content');
-let ref = document.querySelector('.ref');
-let refPhoto = document.querySelector('#refPhoto');
-
-refPhoto.value=variableref;
-
-openModal.addEventListener('click', () => {
-    modal.style.display = 'block';
-    modalContent.style.display = 'block';
-});
-
-
-closeModal.addEventListener('click', () => {
-    modal.style.display = 'none';
-    modalContent.style.display = 'none';
-});
-
-openModal2.addEventListener('click', () => {
-    modal.style.display = 'block';
-    modalContent.style.display = 'block';
-});
 
